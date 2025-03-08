@@ -1,0 +1,32 @@
+{
+  "name": "fibo-calculator",
+  "version": "1.0.0",
+  "description": "Fibonacchi calculator - multi docker container app",
+  "main": "backend/server.js",
+  "scripts": {
+    "test": "npm run test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/Romkin7/fibo-calculator.git"
+  },
+  "keywords": [
+    "React",
+    "Vite",
+    "NodeJS",
+    "Docker",
+    "Docker",
+    "compose",
+    "NGINX",
+    "Postgre",
+    "SQL",
+    "Redis",
+    "Worker"
+  ],
+  "author": "Roman Tuomisto",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Romkin7/fibo-calculator/issues"
+  },
+  "homepage": "https://github.com/Romkin7/fibo-calculator#readme"
+}
