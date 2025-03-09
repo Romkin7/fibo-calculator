@@ -1,0 +1,11 @@
+**/node_modules
+**/dist
+**/build
+**/lib
+**/coverage
+**/.env
+**/.env.local
+**/.env.development
+.vscode
+.idea
+.DS_Store
