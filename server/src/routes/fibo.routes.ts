@@ -8,9 +8,9 @@ router.get('/values', async (req, res) => {
     try {
         const pgClient = await createPool();
         const values = await pgClient.query('SELECT * from values');
-        res.json(values.rows);
+        return res.json(values.rows);
     } catch (err: any) {
-        res.status(500).json({ message: err.message });
+        return res.status(500).json({ message: err.message });
     }
 });
 
@@ -20,7 +20,17 @@ router.get('/values/current', async (req, res) => {
         const values = redisClient.hGetAll('values');
         return res.json(values);
     } catch (err: any) {
-        res.status(500).json({ message: err.message });
+        return res.status(500).json({ message: err.message });
+    }
+});
+
+router.get('/indexes', async (req, res) => {
+    try {
+        const pgClient = await createPool();
+        const indexes = await pgClient.query('SELECT * from values');
+        return res.status(200).json(indexes.rows);
+    } catch (err: any) {
+        return res.status(500).json({ message: err.message });
     }
 });
 
@@ -41,7 +51,7 @@ router.post('/values', async (req, res) => {
         await pgClient.query('INSERT INTO values(number) VALUES($1)', [index]);
         return res.json({ working: true });
     } catch (err: any) {
-        res.status(500).json({ message: err.message });
+        return res.status(500).json({ message: err.message });
     }
 });
 
