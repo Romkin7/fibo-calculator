@@ -5,7 +5,7 @@ export interface IKeys {
 
 export default {
     // Redis host
-    REDIS_HOST: process.env.REDIS_HOST || 'redis',
+    REDIS_HOST: process.env.REDIS_HOST,
     // Redis port
-    REDIS_PORT: process.env.REDIS_PORT || 6379,
-} as IKeys;
+    REDIS_PORT: process.env.REDIS_PORT,
+} as unknown as IKeys;

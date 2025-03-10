@@ -1,0 +1,50 @@
+version: "3"
+services:
+  postgres:
+    image: "postgres:latest"
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
+  redis:
+    image: "redis:latest"
+  backend:
+    env_file: ./.env
+    build:
+      context: ./backend
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /backend/node_modules
+      - ./backend:/backend
+    depends_on:
+      - postgres
+      - redis
+  worker:
+    env_file: ./.env
+    build:
+      context: ./worker
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /worker/node_modules
+      - ./worker:/worker
+    depends_on:
+      - backend
+  client:
+    stdin_open: true
+    build:
+      context: ./client
+      dockerfile: Dockerfile.dev
+    volumes:
+      - /client/node_modules
+      - ./client:/client
+    depends_on:
+      - backend
+      - worker
+  nginx:
+    restart: always
+    build:
+      dockerfile: Dockerfile.dev
+      context: ./nginx
+    ports:
+      - "3050:80"
+    depends_on:
+      - client
+      - backend
