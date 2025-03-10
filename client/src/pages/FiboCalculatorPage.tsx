@@ -27,17 +27,25 @@ const FiboCalculatorPage: FC = () => {
     );
     const fetchValues = async () => {
         const { data } = await axios.get('/api/values');
-        const calculatedValues = data.calculatedValues;
+        const calculatedValues = data;
+        console.log('Calculated values: ', calculatedValues);
         setCalculatedValues(calculatedValues);
     };
     const fetchIndexes = async () => {
         const { data } = await axios.get('/api/indexes');
-        const seenIndexes = data.seenIndexes;
+        const seenIndexes = data;
         setSeenIndexes(seenIndexes);
     };
     useEffect(() => {
         fetchValues();
         fetchIndexes();
+
+        const interval = setInterval(() => {
+            fetchValues();
+            fetchIndexes();
+        }, 5000); // Poll every 5 seconds
+
+        return () => clearInterval(interval); // Clear interval on component unmount
     }, []);
     const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -47,14 +55,14 @@ const FiboCalculatorPage: FC = () => {
             .post('/api/values', { index })
             .then((response: unknown) => {
                 console.log(response);
+                event.currentTarget.reset();
+                console.log('Index:', index);
             })
             .catch((error: unknown) => {
                 console.log(error);
                 setIsIndexError(true);
                 setIndexErrorMessage('Invalid index');
             });
-
-        console.log('Index:', index);
     };
     const renderValues = () => {
         const values = [];
@@ -65,6 +73,7 @@ const FiboCalculatorPage: FC = () => {
                 </li>,
             );
         }
+        console.log(values);
         return values;
     };
     return (
